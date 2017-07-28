@@ -1,6 +1,6 @@
-FROM sdhibit/rpi-raspbian:jessie
+FROM debian:jessie
 
-MAINTAINER Simon Chuang "simon.s.chuang@gmail.com"
+MAINTAINER Brannon Dorsey "brannon@brannondorsey.com"
 
 RUN apt-get update --fix-missing && apt-get install -y \
     hostapd \
@@ -8,13 +8,18 @@ RUN apt-get update --fix-missing && apt-get install -y \
     net-tools \
     iptables \
     dnsmasq \
-    vim \
- && apt-get clean && rm -rf /var/lib/apt/lists/*
+    net-tools \
+    tmux \
+    macchanger
 
+# mitmproxy requires this env
+ENV LANG en_US.UTF-8 
+
+ADD mitmproxy/* /bin/
 ADD hostapd.conf /etc/hostapd/hostapd.conf
 ADD hostapd /etc/default/hostapd
 ADD dnsmasq.conf /etc/dnsmasq.conf
 
-Add entrypoint.sh /entrypoint.sh
+ADD entrypoint.sh /entrypoint.sh
 
-ENTRYPOINT ["/entrypoint.sh"]
+# ENTRYPOINT ["/entrypoint.sh"]
