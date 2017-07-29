@@ -44,6 +44,26 @@ You can also connect your `INTERNET_IFACE` to a hostpot running on your phone yo
 
 If something seems like it went wrong, see the [troubleshooting page](troubleshooting.md).
 
+## Bringing the Network Down
+
+Bring the docker container down to reset the iptable routing rules.
+
+```bash
+# get the name of your container
+docker ps
+
+# attach to the container
+docker stop <CONTAINER_NAME>
+```
+
+```
+Proxy server listening at http://0.0.0.0:1337
+[ ok ] Stopping DNS forwarder and DHCP server: dnsmasq.
+[ ok ] Stopping advanced IEEE 802.11 management: hostapd.
+[ ok ] Stopping system message bus: dbus.
+received shutdown signal, exiting.
+```
+
 ## MAC Randomization
 
 By default, `mitm-router` randomizes the MAC address of your `AP_IFACE` to anonymize your network device. This can be disabled with the `MAC="unchanged"` environment variable. You can also explicitly set the `AP_IFACE` MAC address with `MAC="XX:XX:XX:XX:XX:XX"`.  
