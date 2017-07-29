@@ -4,7 +4,7 @@ AP_IFACE="${AP_IFACE:-wlan0}"
 INTERNET_IFACE="${INTERNET_IFACE:-eth0}"
 SSID="${SSID:-Public}"
 CAPTURE_FILE="${CAPTURE_FILE:-/root/data/http-traffic.cap}"
-MAC="${MAC:random}"
+MAC="${MAC:-random}"
 
 # SIGTERM-handler
 term_handler() {
@@ -28,8 +28,10 @@ term_handler() {
 if [ "$MAC" != "unchanged" ] ; then
   ifconfig "$AP_IFACE" down
   if [ "$MAC" == "random" ] ; then
+    echo "using random MAC address"
     macchanger -A "$AP_IFACE" 
   else
+    echo "setting MAC address to $MAC"
     macchanger --mac "$MAC" "$AP_IFACE"
   fi
   if [ ! $? ] ; then

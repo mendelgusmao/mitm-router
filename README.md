@@ -40,6 +40,8 @@ Proxy server listening at http://0.0.0.0:1337
 
 The `mitm-router/data/` folder is shared with the docker container so that we can view the capture files that it places there on our host machine. By default, you will find the `mitmdump` capture file in `mitm-router/data/http-traffic.cap`.
 
+If something seems like it went wrong, see the [troubleshooting page](troubleshooting.md).
+
 ## MAC Randomization
 
 By default, `mitm-router` randomizes the MAC address of your `AP_IFACE` to anonymize your network device. This can be disabled with the `MAC="unchanged"` environment variable. You can also explicitly set the `AP_IFACE` MAC address with `MAC="XX:XX:XX:XX:XX:XX"`.  
