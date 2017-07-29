@@ -1,4 +1,4 @@
-# Man-in-the-middle Router
+# ☠ Man-in-the-middle Router 🌐
 
 Turn any linux computer into a public Wi-Fi network that silently mitms all http traffic. Runs inside a Docker container using [hostapd](https://wiki.gentoo.org/wiki/Hostapd), [dnsmasq](http://www.thekelleys.org.uk/dnsmasq/doc.html), and [mitmproxy](https://mitmproxy.org/) to create a open honeypot wireless network named "Public".
 
