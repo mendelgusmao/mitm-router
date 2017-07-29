@@ -1,6 +1,9 @@
 FROM debian:jessie
+# replace ^ with below for raspberry pi
+#FROM resin/rpi-raspbian:jessie
 
-MAINTAINER Brannon Dorsey "brannon@brannondorsey.com"
+LABEL maintainer="brannon@brannondorsey.com"
+LABEL license="MIT"
 
 RUN apt-get update --fix-missing && apt-get install -y \
     hostapd \
@@ -9,7 +12,6 @@ RUN apt-get update --fix-missing && apt-get install -y \
     iptables \
     dnsmasq \
     net-tools \
-    tmux \
     macchanger
 
 # mitmproxy requires this env
@@ -20,6 +22,6 @@ ADD hostapd.conf /etc/hostapd/hostapd.conf
 ADD hostapd /etc/default/hostapd
 ADD dnsmasq.conf /etc/dnsmasq.conf
 
-ADD entrypoint.sh /entrypoint.sh
-
-# ENTRYPOINT ["/entrypoint.sh"]
+ADD entrypoint.sh /root/entrypoint.sh
+WORKDIR /root
+ENTRYPOINT ["/root/entrypoint.sh"]
