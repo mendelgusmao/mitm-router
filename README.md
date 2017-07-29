@@ -75,3 +75,7 @@ This access point runs inside of Docker for isolation, ensuring that any vulnera
 - All traffic on the honeypot network will be outbound from you home network's gateway. If someone on the "Public" network is torrenting or conducting illegal activity you will be held accountable and your ISP may cancel your service. <!--For this reason, I recommend you run a [VPN](https://airvpn.org/) on the host linux machine (the one that is running docker) to protect yourself. Doing so will cause all traffic from the host machine, and in turn the honeypot network, to be tunneled through the VPN. Also, be sure to pick a VPN that doesn't log your traffic ;)-->
 
 For added security, I prefer to run this docker container on a dedicated computer, like a Raspberry Pi.
+
+## Attribution
+
+This code started as a hard fork of [simonschuang's rpi-hostapd](https://github.com/simonschuang/rpi-hostapd). The code has been heavily modified for mitm purposes.
