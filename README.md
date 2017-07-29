@@ -40,6 +40,8 @@ Proxy server listening at http://0.0.0.0:1337
 
 The `mitm-router/data/` folder is shared with the docker container so that we can view the capture files that it places there on our host machine. By default, you will find the `mitmdump` capture file in `mitm-router/data/http-traffic.cap`.
 
+You can also connect your `INTERNET_IFACE` to a hostpot running on your phone your for mitm pwnage on the go ;)
+
 If something seems like it went wrong, see the [troubleshooting page](troubleshooting.md).
 
 ## MAC Randomization
