@@ -2,7 +2,7 @@
 
 Turn any linux computer into a public Wi-Fi network that silently mitms all http traffic. Runs inside a Docker container using [hostapd](https://wiki.gentoo.org/wiki/Hostapd), [dnsmasq](http://www.thekelleys.org.uk/dnsmasq/doc.html), and [mitmproxy](https://mitmproxy.org/) to create a open honeypot wireless network named "Public".
 
-```
+```bash
 # clone the repo
 git clone https://github.com/brannondorsey/mitm-router
 cd mitm-router
@@ -11,6 +11,8 @@ cd mitm-router
 # the image from the docker hub repository
 docker build . -t brannondorsey/mitm-router
 ```
+
+Run the following, replacing `AP_IFACE` and `INTERNET_IFACE` with your wireless device and internet-connected ethernet/wireless devices respectively. You can can get see the name of your network devices by running `ifconfig`.
 
 ```bash
 # run the container
@@ -22,9 +24,21 @@ docker run -it --net host --privileged \
 brannondorsey/mitm-router
 ```
 
-We share the `mitm-router/data/` folder with the docker container so that we can view the capture files that it places there with on our host machine. By default, you will find the `mitmdump` capture file in `mitm-router/data/http-traffic.cap`.
+If all went well, you should see something like this:
+
+```
+Current MAC:   a5:ae:f9:a4:b7:e3 (TP-LINK TECHNOLOGIES CO.,LTD.)
+Permanent MAC: a5:ae:f9:a4:b7:e3 (TP-LINK TECHNOLOGIES CO.,LTD.)
+New MAC:       00:d2:6b:d5:fe:bd (PHOTRON USA)
+[ ok ] Starting system message bus: dbus.
+[ ok ] Starting DNS forwarder and DHCP server: dnsmasq.
+[ ok ] Starting advanced IEEE 802.11 management: hostapd.
+Proxy server listening at http://0.0.0.0:1337
+```
 
 `mitm-router` transparently captures all `HTTP` traffic sent to the router at `10.0.0.1:80`. It does **not** intercept HTTPS traffic (port `443`) as doing so would alert a user that a possible man-in-the-middle attack was taking place. Traffic between URLs that begin with `https://` will not be captured. 
+
+The `mitm-router/data/` folder is shared with the docker container so that we can view the capture files that it places there on our host machine. By default, you will find the `mitmdump` capture file in `mitm-router/data/http-traffic.cap`.
 
 ## MAC Randomization
 
