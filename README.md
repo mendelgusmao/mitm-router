@@ -2,6 +2,9 @@
 
 Turn any linux computer into a public Wi-Fi network that silently mitms all http traffic. Runs inside a Docker container using [hostapd](https://wiki.gentoo.org/wiki/Hostapd), [dnsmasq](http://www.thekelleys.org.uk/dnsmasq/doc.html), and [mitmproxy](https://mitmproxy.org/) to create a open honeypot wireless network named "Public". For added fun, change the network name to "xfinitywifi" to autoconnect anyone who has ever connected to those networks... they are everywhere.
 
+
+**DISCLAIMER: This software is for educational purposes only. It should not be used for illegal activity. The author is not responsible for its use. Don't be a dick.**
+
 ```bash
 # clone the repo
 git clone https://github.com/brannondorsey/mitm-router
