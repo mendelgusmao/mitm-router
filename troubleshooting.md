@@ -71,7 +71,7 @@ On certain machines, I've had issues getting hostapd to work with spoofed MAC ad
 
 ## Dnsmasq Failed to Launch
 
-Login to the docker container using the same instructions from the [Hostapd Failed to Launch](#hostapd-failed-to-launch) section. Once inside the containe, run `dnsmasq` as a non-daemon process to get an error message.
+Login to the docker container using the same instructions from the [Hostapd Failed to Launch](#hostapd-failed-to-launch) section. Once inside the container, run `dnsmasq` as a non-daemon process to get an error message.
 
 ```
 dnsmasq --no-daemon
