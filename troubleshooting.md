@@ -69,3 +69,24 @@ You must now be sure to specify that `mitm-router` does *not* randomize the MAC 
 
 On certain machines, I've had issues getting hostapd to work with spoofed MAC addresses at all. So for a surefire (albeit sketchy) method, don't spoof the MAC of you `AP_IFACE`.
 
+## Dnsmasq Failed to Launch
+
+Login to the docker container using the same instructions from the [Hostapd Failed to Launch](#hostapd-failed-to-launch) section. Once inside the containe, run `dnsmasq` as a non-daemon process to get an error message.
+
+```
+dnsmasq --no-daemon
+```
+
+### dnsmasq: failed to create listening socket for 10.0.0.1: Cannot assign requested address
+
+This error occurs when the `$AP_IFACE` wireless interface hasn't been assigned a static IP address. The IP address `10.0.0.1` should be assigned to the wireless interface in `entrypoint.sh`, however, due to certain circumstances I've experienced this to occasionally fail. You can set the static IP address manually with:
+
+```
+# assumes AP_IFACE is already set (e.g. AP_IFACE=wlan0
+ifconfig $AP_IFACE up 10.0.0.1 netmask 255.255.255.0
+
+# check to make sure the IP address was correctly assigned
+ifconfig
+```
+
+Once the interface IP address has been assigned, relaunch the `dnsmasq` process manually to make sure that it worked correctly. The wireless interface's IP should remain assigned until the device is unplugged.
