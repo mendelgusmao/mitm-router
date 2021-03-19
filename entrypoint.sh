@@ -18,9 +18,6 @@ term_handler() {
   /etc/init.d/hostapd stop
   /etc/init.d/dbus stop
 
-  kill $MITMDUMP_PID
-  kill -TERM "$CHILD" 2> /dev/null
-  
   echo "received shutdown signal, exiting."
 }
 
@@ -96,10 +93,5 @@ trap term_handler SIGTERM
 trap term_handler SIGKILL
 
 # start mitmproxy in the background, but keep its output in this session
-mitmdump -T --host -p 1337 -w "$CAPTURE_FILE" "$FILTER" & 
-MITMDUMP_PID=$!
-
-# wait forever
-sleep infinity &
-CHILD=$!
-wait "$CHILD"
+mitmproxy --mode transparent -p 1337 -w "$CAPTURE_FILE" $FILTER
+term_handler
