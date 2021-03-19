@@ -5,6 +5,7 @@ INTERNET_IFACE="${INTERNET_IFACE:-eth0}"
 SSID="${SSID:-Public}"
 CAPTURE_FILE="${CAPTURE_FILE:-/root/data/http-traffic.cap}"
 MAC="${MAC:-random}"
+ENABLE_HTTPS="${ENABLE_HTTPS:-no}"
 
 # SIGTERM-handler
 term_handler() {
@@ -56,6 +57,10 @@ if [ ! -z "$PASSWORD" ]; then
   sed -i "s/wpa_passphrase=.*/wpa_passphrase=$PASSWORD/g" /etc/hostapd/hostapd.conf
 fi
 
+if [ "$ENABLE_HTTPS" = "yes" ]; then
+  echo "HTTPS interception is enabled."
+fi
+
 sed -i "s/^ssid=.*/ssid=$SSID/g" /etc/hostapd/hostapd.conf
 sed -i "s/interface=.*/interface=$AP_IFACE/g" /etc/hostapd/hostapd.conf
 sed -i "s/interface=.*/interface=$AP_IFACE/g" /etc/dnsmasq.conf
@@ -86,6 +91,15 @@ fi
 iptables -t nat -C PREROUTING -i "$AP_IFACE" -p tcp --dport 80 -j REDIRECT --to-port 1337
 if [ ! $? -eq 0 ] ; then
   iptables -t nat -A PREROUTING -i "$AP_IFACE" -p tcp --dport 80 -j REDIRECT --to-port 1337
+fi
+
+if [ "$ENABLE_HTTPS" = "yes" ]; then
+  # iptables rule to forward all traffic on router port 80 to 1337
+  # where mitmproxy will be listening for it
+  iptables -t nat -C PREROUTING -i "$AP_IFACE" -p tcp --dport 443 -j REDIRECT --to-port 1337
+  if [ ! $? -eq 0 ] ; then
+    iptables -t nat -A PREROUTING -i "$AP_IFACE" -p tcp --dport 443 -j REDIRECT --to-port 1337
+  fi
 fi
 
 # setup handlers
