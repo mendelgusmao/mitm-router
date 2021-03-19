@@ -3,7 +3,8 @@
 AP_IFACE="${AP_IFACE:-wlan0}"
 INTERNET_IFACE="${INTERNET_IFACE:-eth0}"
 SSID="${SSID:-Public}"
-CAPTURE_FILE="${CAPTURE_FILE:-/root/data/http-traffic.cap}"
+DATA_DIR=/root/.mitmproxy
+CAPTURE_FILE="${CAPTURE_FILE:-$DATA_DIR/$(date +%Y%m%d_%H%M%S).cap}"
 MAC="${MAC:-random}"
 ENABLE_HTTPS="${ENABLE_HTTPS:-no}"
 
@@ -105,6 +106,8 @@ fi
 # setup handlers
 trap term_handler SIGTERM
 trap term_handler SIGKILL
+
+[ ! -f ${DATA_DIR}/config.yaml ] && mitmproxy --options > ${DATA_DIR}/config.yaml
 
 # start mitmproxy in the background, but keep its output in this session
 mitmproxy --mode transparent -p 1337 -w "$CAPTURE_FILE" $FILTER
